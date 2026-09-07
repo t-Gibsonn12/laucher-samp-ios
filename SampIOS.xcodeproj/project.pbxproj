@@ -60,7 +60,7 @@
 				410000000000000000000001 /* SampIOSApp.swift */,
 				410000000000000000000002 /* ContentView.swift */,
 			);
-			path = App;
+			path = SampIOS/App;
 			sourceTree = "<group>";
 		};
 		300000000000000000000003 /* Core */ = {
@@ -71,7 +71,7 @@
 				300000000000000000000006 /* Networking */,
 				300000000000000000000007 /* Game */,
 			);
-			path = Core;
+			path = SampIOS/Core;
 			sourceTree = "<group>";
 		};
 		300000000000000000000004 /* Models */ = {
@@ -113,7 +113,7 @@
 				460000000000000000000001 /* Assets.xcassets */,
 				460000000000000000000002 /* Info.plist */,
 			);
-			path = Resources;
+			path = SampIOS/Resources;
 			sourceTree = "<group>";
 		};
 		300000000000000000000009 /* Products */ = {
