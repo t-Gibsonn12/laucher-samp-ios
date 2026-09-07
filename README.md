@@ -12,7 +12,7 @@ Không có IP nào bị hard-code.
 - Gửi truy vấn `SAMP i` để kiểm tra server, đọc tên server, số người chơi và
   thời gian phản hồi UDP.
 - Có unit test cho packet query, packet response và kiểm tra endpoint.
-- GitHub Actions chạy unit test, build IPA unsigned và kiểm tra cấu trúc IPA.
+- GitHub Actions build test target, build IPA unsigned và kiểm tra cấu trúc IPA.
 
 ## Có thể test ngay
 

@@ -30,7 +30,7 @@ cho phần launcher.
    chơi và thời gian UDP.
 4. Server bị tắt/sai port phản hồi bằng lỗi timeout, không treo app.
 5. Server đã lưu còn tồn tại sau khi tắt/mở app.
-6. CI chạy packet tests, build release, kiểm tra `Info.plist` và `Payload/*.app`
+6. CI build packet test target, build release, kiểm tra `Info.plist` và `Payload/*.app`
    trong IPA trước khi phát artifact.
 
 ## Điều kiện để bắt đầu lớp game client
