@@ -64,7 +64,7 @@ struct ContentView: View {
                 RoundedRectangle(cornerRadius: 16, style: .continuous)
                     .fill(
                         LinearGradient(
-                            colors: [.launcherBlue, .launcherPurple],
+                            colors: [Color.launcherBlue, Color.launcherPurple],
                             startPoint: .topLeading,
                             endPoint: .bottomTrailing
                         )
@@ -74,7 +74,7 @@ struct ContentView: View {
                     .foregroundStyle(.white)
             }
             .frame(width: 58, height: 58)
-            .shadow(color: .launcherPurple.opacity(0.35), radius: 16, y: 7)
+            .shadow(color: Color.launcherPurple.opacity(0.35), radius: 16, y: 7)
 
             VStack(alignment: .leading, spacing: 4) {
                 Text("SAMP IOS")
@@ -96,13 +96,13 @@ struct ContentView: View {
         HStack(spacing: 13) {
             Image(systemName: "bolt.horizontal.circle.fill")
                 .font(.title2)
-                .foregroundStyle(.launcherAmber)
+                .foregroundStyle(Color.launcherAmber)
 
             VStack(alignment: .leading, spacing: 3) {
                 Text("CLIENT GAME")
                     .font(.caption.weight(.black))
                     .tracking(1.2)
-                    .foregroundStyle(.launcherAmber)
+                    .foregroundStyle(Color.launcherAmber)
                 Text("Launcher core đã sẵn sàng")
                     .font(.subheadline.weight(.semibold))
                 Text("Đang chờ tích hợp binary SA-MP native")
@@ -113,16 +113,16 @@ struct ContentView: View {
             Spacer()
             Text("SETUP")
                 .font(.caption2.weight(.black))
-                .foregroundStyle(.launcherAmber)
+                .foregroundStyle(Color.launcherAmber)
                 .padding(.horizontal, 9)
                 .padding(.vertical, 6)
-                .background(.launcherAmber.opacity(0.13), in: Capsule())
+                .background(Color.launcherAmber.opacity(0.13), in: Capsule())
         }
         .padding(16)
-        .background(.launcherAmber.opacity(0.08), in: RoundedRectangle(cornerRadius: 18, style: .continuous))
+        .background(Color.launcherAmber.opacity(0.08), in: RoundedRectangle(cornerRadius: 18, style: .continuous))
         .overlay {
             RoundedRectangle(cornerRadius: 18, style: .continuous)
-                .stroke(.launcherAmber.opacity(0.25), lineWidth: 1)
+                .stroke(Color.launcherAmber.opacity(0.25), lineWidth: 1)
         }
     }
 
@@ -221,16 +221,16 @@ struct ContentView: View {
             case .idle:
                 statusLine(icon: "dot.radiowaves.left.and.right", color: .white.opacity(0.45), title: "Chưa kiểm tra", detail: "Nhấn nút làm mới để gửi truy vấn SA-MP")
             case .checking:
-                statusLine(icon: "antenna.radiowaves.left.and.right", color: .launcherBlue, title: "Đang kiểm tra...", detail: "Đang chờ phản hồi UDP từ server")
+                statusLine(icon: "antenna.radiowaves.left.and.right", color: Color.launcherBlue, title: "Đang kiểm tra...", detail: "Đang chờ phản hồi UDP từ server")
             case .online(let info):
                 statusLine(
                     icon: "checkmark.circle.fill",
-                    color: .launcherGreen,
+                    color: Color.launcherGreen,
                     title: info.name ?? "Server đang online",
                     detail: "\(info.players)/\(info.maxPlayers) người chơi"
                 )
             case .offline(let message):
-                statusLine(icon: "xmark.circle.fill", color: .launcherRed, title: "Không kết nối được", detail: message)
+                statusLine(icon: "xmark.circle.fill", color: Color.launcherRed, title: "Không kết nối được", detail: message)
             }
         }
         .padding(16)
@@ -251,7 +251,7 @@ struct ContentView: View {
                         showSavedServers = true
                     }
                     .font(.caption.weight(.bold))
-                    .foregroundStyle(.launcherBlue)
+                    .foregroundStyle(Color.launcherBlue)
                 }
 
                 Button {
@@ -259,7 +259,7 @@ struct ContentView: View {
                 } label: {
                     HStack(spacing: 12) {
                         Image(systemName: "server.rack")
-                            .foregroundStyle(.launcherBlue)
+                            .foregroundStyle(Color.launcherBlue)
                         VStack(alignment: .leading, spacing: 3) {
                             Text(profile.name)
                                 .font(.subheadline.weight(.bold))
@@ -299,7 +299,7 @@ struct ContentView: View {
             .padding(.vertical, 17)
         }
         .buttonStyle(.borderedProminent)
-        .tint(.launcherPurple)
+        .tint(Color.launcherPurple)
         .disabled(isLaunching || !store.isFormValid)
         .opacity(store.isFormValid ? 1 : 0.5)
     }
@@ -315,7 +315,7 @@ struct ContentView: View {
         HStack(spacing: 12) {
             Image(systemName: icon)
                 .font(.subheadline.weight(.bold))
-                .foregroundStyle(.launcherBlue)
+                .foregroundStyle(Color.launcherBlue)
                 .frame(width: 22)
 
             VStack(alignment: .leading, spacing: 3) {
