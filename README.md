@@ -1,25 +1,47 @@
 # SAMP iOS Launcher
 
-Nền tảng launcher native cho SA-MP trên iPhone/iPad, viết bằng SwiftUI.
-
-Launcher này không gắn với một server cố định. Người chơi tự nhập địa chỉ
-IPv4 và port của bất kỳ server SA-MP nào, sau đó có thể lưu nhiều server để
-truy cập nhanh.
+Launcher native iPhone/iPad cho server SA-MP/open.mp bất kỳ. Người chơi nhập
+IPv4 + port, lưu danh sách server và kiểm tra trạng thái UDP trước khi kết nối.
+Không có IP nào bị hard-code.
 
 ## Trạng thái hiện tại
 
 - Có project Xcode native và giao diện launcher dark mode.
 - Lưu tên người chơi và danh sách server bằng `UserDefaults`.
 - Nhập địa chỉ IPv4 + port SA-MP, không hardcode IP server.
-- Gửi truy vấn `SAMP i` để kiểm tra server và đọc số người chơi.
-- Có luồng khởi chạy và điểm tích hợp `GameClientBridge`.
-- Có GitHub Actions để build unsigned app trên macOS runner.
+- Gửi truy vấn `SAMP i` để kiểm tra server, đọc tên server, số người chơi và
+  thời gian phản hồi UDP.
+- Có unit test cho packet query, packet response và kiểm tra endpoint.
+- GitHub Actions chạy unit test, build IPA unsigned và kiểm tra cấu trúc IPA.
 
-> **Quan trọng:** Repo hiện chưa chứa GTA San Andreas hoặc binary SA-MP client.
-> Launcher quản lý cấu hình và kết nối generic; để vào game thật cần tích hợp
-> một client game iOS đã được build thành framework/static library hoặc đưa mã
-> nguồn client vào target này. Không commit file GTA hoặc tài sản có bản quyền
-> vào repo.
+## Có thể test ngay
+
+Sau khi ký IPA và cài lên iPhone, nhập một IPv4 + port server đang mở rồi bấm
+biểu tượng làm mới trong mục **TRẠNG THÁI SERVER**.
+
+- Hiện tên server, số người chơi và `UDP ... ms`: launcher đã liên lạc được với
+  server từ chính iPhone.
+- Hiện timeout: kiểm tra IP/port, UDP query của server, hoặc mạng điện thoại.
+- Không dùng `127.0.0.1` trừ khi server chạy ngay trên iPhone đó.
+
+Đây là test thực tế cho launcher, không phải ảnh demo.
+
+## Ranh giới hiện tại: launcher và game client
+
+`GameClientBridge` chưa có implementation vì repo không chứa GTA San Andreas
+hoặc một SA-MP client iOS. Do đó nút **VÀO GAME** hiện phải báo rõ client chưa
+được tích hợp; nó không giả vờ mở game.
+
+Để chơi SA-MP thật trên iOS, cần một client native ARM64 có đủ ba phần:
+
+1. runtime/render GTA có quyền sử dụng tài sản game;
+2. networking SA-MP/open.mp (RakNet, RPC, sync, dialogs, TextDraw, input...);
+3. adapter nhận player name, host, port từ launcher rồi mở game scene.
+
+Không đưa file game/binary có bản quyền hoặc client không rõ nguồn vào repo.
+Khi có một client iOS hợp pháp (mã nguồn hoặc framework được cấp quyền), thay
+`GameClientBridge.launch` bằng adapter của client đó. Mọi server mà client hỗ
+trợ đều sẽ nhận được host/port do người chơi nhập, không cần build IPA riêng.
 
 ## Mở và build trên Mac
 
@@ -34,12 +56,10 @@ truy cập nhanh.
 Vào tab **Actions** → workflow **Build iOS** → **Run workflow**. Runner macOS
 trên GitHub sẽ build ra artifact `SampIOS-unsigned.ipa`.
 
-IPA unsigned chỉ là artifact kiểm tra build; để cài lên iPhone cần một quy
-trình sideload/ký app hợp lệ. Không cần Apple Developer để tiếp tục viết
-launcher, nhưng việc cài app lên thiết bị thật vẫn phụ thuộc vào phương thức
-ký mà bạn chọn.
+IPA unsigned là artifact kiểm tra build; để cài lên iPhone cần ký app hợp lệ.
+Không cần Mac để tải artifact hoặc ký bằng eSign trên iPhone.
 
-## Điểm tích hợp client game
+## Điểm tích hợp client game khi đã có nguồn hợp pháp
 
 `SampIOS/Core/Game/GameClientBridge.swift` là adapter tách khỏi UI. Khi có
 client game thật, thay implementation `launch` bằng API của client và truyền

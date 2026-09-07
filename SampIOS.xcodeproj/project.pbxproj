@@ -16,7 +16,20 @@
 		710000000000000000000007 /* GameClientBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 450000000000000000000001 /* GameClientBridge.swift */; };
 		710000000000000000000008 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 460000000000000000000001 /* Assets.xcassets */; };
 		710000000000000000000009 /* Network.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 470000000000000000000001 /* Network.framework */; };
+		710000000000000000000010 /* SampProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 440000000000000000000002 /* SampProtocol.swift */; };
+		710000000000000000000011 /* SampProtocolTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 480000000000000000000001 /* SampProtocolTests.swift */; };
+		710000000000000000000012 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 470000000000000000000002 /* XCTest.framework */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		740000000000000000000001 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 100000000000000000000001 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 200000000000000000000001;
+			remoteInfo = SampIOS;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		410000000000000000000001 /* SampIOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampIOSApp.swift; sourceTree = "<group>"; };
@@ -25,11 +38,15 @@
 		420000000000000000000002 /* LauncherConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LauncherConfiguration.swift; sourceTree = "<group>"; };
 		430000000000000000000001 /* LauncherStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LauncherStore.swift; sourceTree = "<group>"; };
 		440000000000000000000001 /* SampServerProbe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampServerProbe.swift; sourceTree = "<group>"; };
+		440000000000000000000002 /* SampProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampProtocol.swift; sourceTree = "<group>"; };
 		450000000000000000000001 /* GameClientBridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameClientBridge.swift; sourceTree = "<group>"; };
 		460000000000000000000001 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		460000000000000000000002 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		470000000000000000000001 /* Network.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Network.framework; path = System/Library/Frameworks/Network.framework; sourceTree = SDKROOT; };
+		470000000000000000000002 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = System/Library/Frameworks/XCTest.framework; sourceTree = SDKROOT; };
+		480000000000000000000001 /* SampProtocolTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampProtocolTests.swift; sourceTree = "<group>"; };
 		490000000000000000000001 /* SampIOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SampIOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		490000000000000000000002 /* SampIOSCoreTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SampIOSCoreTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -38,6 +55,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				710000000000000000000009 /* Network.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		530000000000000000000002 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				710000000000000000000012 /* XCTest.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -50,6 +75,7 @@
 				300000000000000000000002 /* App */,
 				300000000000000000000003 /* Core */,
 				300000000000000000000008 /* Resources */,
+				300000000000000000000010 /* Tests */,
 				300000000000000000000009 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -95,8 +121,17 @@
 			isa = PBXGroup;
 			children = (
 				440000000000000000000001 /* SampServerProbe.swift */,
+				440000000000000000000002 /* SampProtocol.swift */,
 			);
 			path = Networking;
+			sourceTree = "<group>";
+		};
+		300000000000000000000010 /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				480000000000000000000001 /* SampProtocolTests.swift */,
+			);
+			path = SampIOSCoreTests;
 			sourceTree = "<group>";
 		};
 		300000000000000000000007 /* Game */ = {
@@ -120,6 +155,7 @@
 			isa = PBXGroup;
 			children = (
 				490000000000000000000001 /* SampIOS.app */,
+				490000000000000000000002 /* SampIOSCoreTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -144,6 +180,23 @@
 			productReference = 490000000000000000000001 /* SampIOS.app */;
 			productType = "com.apple.product-type.application";
 		};
+		200000000000000000000002 /* SampIOSCoreTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 620000000000000000000002 /* Build configuration list for PBXNativeTarget "SampIOSCoreTests" */;
+			buildPhases = (
+				510000000000000000000002 /* Sources */,
+				530000000000000000000002 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				730000000000000000000001 /* PBXTargetDependency */,
+			);
+			name = SampIOSCoreTests;
+			productName = SampIOSCoreTests;
+			productReference = 490000000000000000000002 /* SampIOSCoreTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -155,6 +208,10 @@
 				TargetAttributes = {
 					200000000000000000000001 = {
 						CreatedOnToolsVersion = 16.0;
+					};
+					200000000000000000000002 = {
+						CreatedOnToolsVersion = 16.0;
+						TestTargetID = 200000000000000000000001;
 					};
 				};
 			};
@@ -172,6 +229,7 @@
 			projectRoot = "";
 			targets = (
 				200000000000000000000001 /* SampIOS */,
+				200000000000000000000002 /* SampIOSCoreTests */,
 			);
 		};
 /* End PBXProject section */
@@ -198,11 +256,28 @@
 				710000000000000000000004 /* LauncherConfiguration.swift in Sources */,
 				710000000000000000000005 /* LauncherStore.swift in Sources */,
 				710000000000000000000006 /* SampServerProbe.swift in Sources */,
+				710000000000000000000010 /* SampProtocol.swift in Sources */,
 				710000000000000000000007 /* GameClientBridge.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		510000000000000000000002 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				710000000000000000000011 /* SampProtocolTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		730000000000000000000001 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 200000000000000000000001 /* SampIOS */;
+			targetProxy = 740000000000000000000001 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		611000000000000000000001 /* Debug */ = {
@@ -277,6 +352,31 @@
 			};
 			name = Release;
 		};
+		623000000000000000000001 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tgibsonn12.sampios.tests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SampIOS.app/SampIOS";
+			};
+			name = Debug;
+		};
+		624000000000000000000001 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tgibsonn12.sampios.tests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SampIOS.app/SampIOS";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -294,6 +394,15 @@
 			buildConfigurations = (
 				621000000000000000000001 /* Debug */,
 				622000000000000000000001 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		620000000000000000000002 /* Build configuration list for PBXNativeTarget "SampIOSCoreTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				623000000000000000000001 /* Debug */,
+				624000000000000000000001 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

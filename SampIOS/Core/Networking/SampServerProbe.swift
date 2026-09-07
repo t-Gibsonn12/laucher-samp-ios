@@ -5,6 +5,14 @@ struct SampServerInfo: Equatable {
     let players: Int
     let maxPlayers: Int
     let name: String?
+    let latencyMilliseconds: Int?
+
+    init(players: Int, maxPlayers: Int, name: String?, latencyMilliseconds: Int? = nil) {
+        self.players = players
+        self.maxPlayers = maxPlayers
+        self.name = name
+        self.latencyMilliseconds = latencyMilliseconds
+    }
 }
 
 enum SampProbeError: LocalizedError {
@@ -31,7 +39,7 @@ final class SampServerProbe {
     private let queue = DispatchQueue(label: "samp-ios.server-probe")
 
     func check(host: String, port: UInt16) async throws -> SampServerInfo {
-        guard let ipBytes = Self.ipv4Bytes(from: host) else {
+        guard let ipBytes = SampEndpoint.ipv4Octets(from: host) else {
             throw SampProbeError.invalidIPv4
         }
 
@@ -44,7 +52,8 @@ final class SampServerProbe {
             port: endpointPort,
             using: .udp
         )
-        let packet = Self.makeInfoQuery(ipBytes: ipBytes, port: port)
+        let packet = SampProtocol.makeInfoQuery(ipv4: ipBytes, port: port)
+        let requestStartedAt = Date()
 
         return try await withTaskCancellationHandler(operation: {
             try await withCheckedThrowingContinuation { continuation in
@@ -76,8 +85,15 @@ final class SampServerProbe {
                             connection.receiveMessage { data, _, _, error in
                                 if let error {
                                     finish(.failure(SampProbeError.connectionFailed(error.localizedDescription)))
-                                } else if let data, let info = Self.parseInfoResponse(data) {
-                                    finish(.success(info))
+                                } else if let data, let info = SampProtocol.parseInfoResponse(data) {
+                                    let elapsed = Date().timeIntervalSince(requestStartedAt)
+                                    let measuredInfo = SampServerInfo(
+                                        players: info.players,
+                                        maxPlayers: info.maxPlayers,
+                                        name: info.name,
+                                        latencyMilliseconds: max(0, Int((elapsed * 1_000).rounded()))
+                                    )
+                                    finish(.success(measuredInfo))
                                 } else {
                                     finish(.failure(SampProbeError.invalidResponse))
                                 }
@@ -100,48 +116,4 @@ final class SampServerProbe {
         })
     }
 
-    private static func makeInfoQuery(ipBytes: [UInt8], port: UInt16) -> Data {
-        var packet = Data([0x53, 0x41, 0x4D, 0x50]) // SAMP
-        packet.append(contentsOf: ipBytes)
-        packet.append(UInt8(port & 0xFF))
-        packet.append(UInt8((port >> 8) & 0xFF))
-        packet.append(0x69) // i = server info
-        return packet
-    }
-
-    private static func parseInfoResponse(_ data: Data) -> SampServerInfo? {
-        let bytes = [UInt8](data)
-        guard bytes.count >= 16,
-              Array(bytes.prefix(4)) == [0x53, 0x41, 0x4D, 0x50],
-              bytes[10] == 0x69 else {
-            return nil
-        }
-
-        let players = Int(UInt16(bytes[12]) | (UInt16(bytes[13]) << 8))
-        let maxPlayers = Int(UInt16(bytes[14]) | (UInt16(bytes[15]) << 8))
-
-        var serverName: String?
-        if bytes.count >= 20 {
-            let nameLength = Int(bytes[16])
-                | (Int(bytes[17]) << 8)
-                | (Int(bytes[18]) << 16)
-                | (Int(bytes[19]) << 24)
-            let nameStart = 20
-            let nameEnd = nameStart + nameLength
-
-            if nameLength >= 0, nameEnd <= bytes.count {
-                serverName = String(bytes: bytes[nameStart..<nameEnd], encoding: .utf8)
-            }
-        }
-
-        return SampServerInfo(players: players, maxPlayers: maxPlayers, name: serverName)
-    }
-
-    private static func ipv4Bytes(from host: String) -> [UInt8]? {
-        let parts = host.split(separator: ".", omittingEmptySubsequences: false)
-        guard parts.count == 4 else { return nil }
-
-        let values = parts.compactMap { UInt8($0) }
-        return values.count == 4 ? values : nil
-    }
 }

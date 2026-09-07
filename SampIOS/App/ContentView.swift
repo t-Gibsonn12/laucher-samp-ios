@@ -34,7 +34,7 @@ struct ContentView: View {
                     probeCard
                     savedServersSection
                     launchButton
-                    Text("SAMP iOS launcher • client game sẽ được tích hợp ở bước tiếp theo")
+                    Text("Bản thử nghiệm launcher • không kèm GTA/SA-MP client")
                         .font(.caption2.weight(.medium))
                         .foregroundStyle(.white.opacity(0.38))
                         .frame(maxWidth: .infinity, alignment: .center)
@@ -103,15 +103,15 @@ struct ContentView: View {
                     .font(.caption.weight(.black))
                     .tracking(1.2)
                     .foregroundStyle(Color.launcherAmber)
-                Text("Launcher core đã sẵn sàng")
+                Text("Launcher có thể kiểm tra server")
                     .font(.subheadline.weight(.semibold))
-                Text("Đang chờ tích hợp binary SA-MP native")
+                Text("Game client native chưa được tích hợp vào IPA này")
                     .font(.caption)
                     .foregroundStyle(.white.opacity(0.5))
             }
 
             Spacer()
-            Text("SETUP")
+                    Text("TEST")
                 .font(.caption2.weight(.black))
                 .foregroundStyle(Color.launcherAmber)
                 .padding(.horizontal, 9)
@@ -128,7 +128,7 @@ struct ContentView: View {
 
     private var connectionSection: some View {
         VStack(alignment: .leading, spacing: 12) {
-            SectionTitle(title: "Kết nối máy chủ", subtitle: "Nhập thông tin để lưu và kiểm tra server")
+            SectionTitle(title: "Kết nối máy chủ", subtitle: "Chỉ hỗ trợ IPv4 và port SA-MP/open.mp")
 
             VStack(spacing: 0) {
                 inputRow(
@@ -227,7 +227,7 @@ struct ContentView: View {
                     icon: "checkmark.circle.fill",
                     color: Color.launcherGreen,
                     title: info.name ?? "Server đang online",
-                    detail: "\(info.players)/\(info.maxPlayers) người chơi"
+                    detail: onlineDetail(for: info)
                 )
             case .offline(let message):
                 statusLine(icon: "xmark.circle.fill", color: Color.launcherRed, title: "Không kết nối được", detail: message)
@@ -377,6 +377,14 @@ struct ContentView: View {
                 probeState = .offline(error.localizedDescription)
             }
         }
+    }
+
+    private func onlineDetail(for info: SampServerInfo) -> String {
+        let playerCount = "\(info.players)/\(info.maxPlayers) người chơi"
+        guard let latencyMilliseconds = info.latencyMilliseconds else {
+            return playerCount
+        }
+        return "\(playerCount) • UDP \(latencyMilliseconds) ms"
     }
 
     private func launchGame() {
